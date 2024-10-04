@@ -68,7 +68,7 @@
 |--|--|--|--|--|--|
 |report_id|int|not null|PK|auto_increment|report pk|
 |user_id|int|not null|FK||associate with user|
-|is_solved|tinyint|not null|0||해결 여부|
+|is_solved|tinyint|not null||0|해결 여부|
 |category|varchar(10)|not null|||enum("불편사용자", "시설고장", "건의사항", "기타")|
 |detail|varchar(300)|not null|||구체적인 내용|
 |created_at|datetime|not null||current_timestamp|가입시간|
