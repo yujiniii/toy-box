@@ -73,3 +73,33 @@
 |detail|varchar(300)|not null|||구체적인 내용|
 |created_at|datetime|not null||current_timestamp|가입시간|
 |updated_at|datetime|null|||수정시간|
+
+### API 설계
+**user**
+* 회원가입 POST /user/register
+* 로그인 POST /user/login
+* 본인 정보 조회 GET /me
+* 사용자 시간 충전 POST /user/add
+* [admin]
+  * 사용자 목록 조회 /user
+  * 사용자 목록 조회 /user/:userId
+  * 사용자 시간 충전 POST /user/:userId/add
+
+
+**cafe**
+* 현재 스카 이용 상태 GET /cafe
+* 입실 POST /cafe/:usage_id/enter
+* 퇴실 POST /cafe/:usage_id/leave
+* [admin](공용으로 사용해도 될지도)
+  * 입실 POST /cafe/:usage_id/enter
+  * 퇴실 POST /cafe/:usage_id/leave
+
+**report**
+* 불편 신고 POST /report
+* [admin]
+  * 불편 신고 목록 조회 GET /report?{query}
+  * 불편 신고 조회 GET /report/:reportId
+  * 신고 상태 변경 PUT /report/:reportId
+
+
+
