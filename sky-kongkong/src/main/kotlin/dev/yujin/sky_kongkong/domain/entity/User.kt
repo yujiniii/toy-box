@@ -1,18 +1,14 @@
 package dev.yujin.sky_kongkong.domain.entity
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
+
 
 @Entity
 class User(
     name: String,
     phone: String,
     password: String
-) : BaseEntity(
-) {
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     /* auto_increment */
@@ -27,4 +23,22 @@ class User(
 
     @Column(name = "password", nullable = false)
     var password: String = password
+
+    @OneToOne(
+        targetEntity = UserTime::class,
+        fetch = FetchType.LAZY,
+        cascade = [CascadeType.ALL]
+    )
+    @JoinColumn(name = "user_id")
+    var timeInfo: UserTime? = null
+
+    fun update(
+        name: String,
+        phone: String,
+        password: String
+    ) {
+        this.name = name
+        this.phone = phone
+        this.password = password
+    }
 }

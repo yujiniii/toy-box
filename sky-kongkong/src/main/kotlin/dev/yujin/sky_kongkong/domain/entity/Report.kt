@@ -7,11 +7,10 @@ import java.time.LocalDateTime
 
 @Entity
 class Report(
-    userId: Long,
     isSolved: Boolean,
     category: String,
     detail: String,
-): BaseEntity() {
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     /* auto_increment */
@@ -21,13 +20,24 @@ class Report(
     @Column(name = "is_solved")
     var isSolved: Boolean = isSolved
 
-    @Column(name = "user_id")
-    var userId: Long = userId
-
     @Column(name = "category")
     @Enumerated(value = EnumType.STRING)
     var category: ReportType = ReportType.valueOf(category)
 
     @Column(name = "detail")
     var detail: String = detail
+
+    @ManyToOne(targetEntity = User::class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    var user: User? = null // @todo: 수정
+
+    fun update(
+        isSolved: Boolean,
+        category: ReportType,
+        detail: String,
+    ) {
+        this.isSolved = isSolved
+        this.category = category
+        this.detail = detail
+    }
 }
