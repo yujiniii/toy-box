@@ -2,10 +2,10 @@ package dev.yujin.sky_kongkong.domain.entity
 
 import dev.yujin.sky_kongkong.domain.constant.ReportType
 import jakarta.persistence.*
-import java.time.LocalDateTime
 
 
 @Entity
+@Table(name = "report")
 class Report(
     isSolved: Boolean,
     category: String,
@@ -29,7 +29,7 @@ class Report(
 
     @ManyToOne(targetEntity = User::class, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    var user: User? = null // @todo: 수정
+    lateinit var user: User
 
     fun update(
         isSolved: Boolean,

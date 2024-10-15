@@ -4,6 +4,7 @@ import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity
+@Table(name = "usage")
 class Usage(
     deskNumber: Number,
     checkIn: LocalDateTime,
@@ -30,7 +31,7 @@ class Usage(
 
     @ManyToOne(targetEntity = User::class, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    var user: User? = null  // @todo: 수정
+    lateinit var user: User  // @todo: 수정
 
     fun update(
         deskNumber: Number,

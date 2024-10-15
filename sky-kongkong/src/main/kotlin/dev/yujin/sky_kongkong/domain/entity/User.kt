@@ -4,6 +4,7 @@ import jakarta.persistence.*
 
 
 @Entity
+@Table(name = "users") // user가 h2에서 예약된 테이블인듯?
 class User(
     name: String,
     phone: String,
@@ -30,7 +31,7 @@ class User(
         cascade = [CascadeType.ALL]
     )
     @JoinColumn(name = "user_id")
-    var timeInfo: UserTime? = null
+    lateinit var timeInfo: UserTime
 
     fun update(
         name: String,
