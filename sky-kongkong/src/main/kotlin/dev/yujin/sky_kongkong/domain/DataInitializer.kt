@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 // bean 등록을 알려주는 어노테이션
 @Component
 @Profile(value = ["default"])
-class dataInitializer(
+class DataInitializer(
     private val usageRepository: UsageRepository,
     private val reportRepository: ReportRepository,
     private val userRepository: UserRepository,
