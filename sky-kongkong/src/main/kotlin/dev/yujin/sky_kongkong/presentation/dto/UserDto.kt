@@ -4,7 +4,7 @@ import dev.yujin.sky_kongkong.domain.entity.User
 
 
 
-class UserDto(
+data class UserDto(
     val userId: Long?,
     val name: String,
     val phone: String
@@ -13,6 +13,5 @@ class UserDto(
        name = user.name,
        userId = user.userId,
        phone = user.phone
-
    )
 }

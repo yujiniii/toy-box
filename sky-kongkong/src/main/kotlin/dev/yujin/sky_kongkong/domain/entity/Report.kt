@@ -10,6 +10,7 @@ class Report(
     isSolved: Boolean,
     category: String,
     detail: String,
+    user: User
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

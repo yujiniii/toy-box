@@ -15,4 +15,14 @@ class UserTime(
 
     @Column(name = "remain_minutes")
     var remainMinutes: Int = remainMinutes
+
+    // User와의 연관관계 설정
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    lateinit var user: User
+
+    // remainMinutes 값을 업데이트하는 메서드 추가
+    fun updateRemainMinutes(newRemainMinutes: Int) {
+        this.remainMinutes = newRemainMinutes
+    }
 }

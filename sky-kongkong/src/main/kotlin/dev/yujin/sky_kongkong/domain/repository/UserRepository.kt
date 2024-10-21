@@ -7,7 +7,7 @@ import java.util.Optional
 
 interface UserRepository : JpaRepository<User, Long> {
 
-    fun findByPhoneIs(phone:String): User
+    fun findByPhoneIs(phone:String): Optional<User>
 
     override fun findById(id: Long): Optional<User>
 }

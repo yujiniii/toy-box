@@ -1,31 +1,38 @@
 package dev.yujin.sky_kongkong.presentation.controller
 
-import dev.yujin.sky_kongkong.presentation.dto.UserDto
+import dev.yujin.sky_kongkong.presentation.dto.*
+import dev.yujin.sky_kongkong.presentation.service.UsageService
 import dev.yujin.sky_kongkong.presentation.service.UserService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/cafe")
+@RequestMapping("/api/cafe")
 class CafeController(
-    private val userService: UserService
+    private val usageService: UsageService
 ) {
 
     @GetMapping("")
-    fun getUserCafeInfo() {
-        // @todo implement
+    fun getUserCafeInfo(
+        @RequestBody body: UserTimeDto
+    ): UsageDto {
+        val userId: Long = 1 // @todo change userId from session or cookie
+        return usageService.getUserUsage(userId)
     }
+
 
     @PostMapping("/enter")
-    fun enterCafe() {
-        // @todo implement
+    fun enterCafe(
+        @RequestBody body: UsageCreationDto
+    ): String {
+        val userId: Long = 1 // @todo change userId from session or cookie
+        return usageService.enterCafe(userId, body)
     }
 
-    @PostMapping("/leave/{usage_id}")
-    fun leaveCafe() {
-        // @todo implement
+    @PostMapping("/leave/{usageId}")
+    fun leaveCafe(
+        @RequestParam usageId: String,
+    ): String {
+        val userId: Long = 1 // @todo change userId from session or cookie
+        return usageService.leaveCafe(userId, usageId.toLong())
     }
 }

@@ -42,4 +42,10 @@ class User(
         this.phone = phone
         this.password = password
     }
+
+    // UserTime과의 연관관계 설정 메서드 추가
+    fun assignTimeInfo(timeInfo: UserTime) {
+        this.timeInfo = timeInfo
+        timeInfo.user = this // 양방향 관계 설정
+    }
 }

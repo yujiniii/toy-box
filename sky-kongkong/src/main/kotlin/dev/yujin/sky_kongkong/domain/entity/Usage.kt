@@ -1,6 +1,7 @@
 package dev.yujin.sky_kongkong.domain.entity
 
 import jakarta.persistence.*
+import java.time.Duration
 import java.time.LocalDateTime
 
 @Entity
@@ -8,8 +9,10 @@ import java.time.LocalDateTime
 class Usage(
     deskNumber: Number,
     checkIn: LocalDateTime,
-    useMinutes: Number?,
-    checkOut: LocalDateTime?
+    user: User?,
+    isActive: Boolean = true,
+    useMinutes: Number? = null,  // 기본값 null
+    checkOut: LocalDateTime? = null // 기본값 null
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,10 +34,14 @@ class Usage(
 
     @ManyToOne(targetEntity = User::class, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    lateinit var user: User  // @todo: 수정
+    lateinit var user: User
+
+    @Column(name = "is_active")
+    var isActive: Boolean = isActive
 
     fun update(
         deskNumber: Number,
+        isActive: Boolean,
         checkIn: LocalDateTime,
         useMinutes: Number?,
         checkOut: LocalDateTime?,
@@ -43,6 +50,8 @@ class Usage(
         this.checkIn = checkIn
         this.useMinutes = useMinutes
         this.checkOut = checkOut
-
+        this.isActive = isActive
     }
+
+
 }
