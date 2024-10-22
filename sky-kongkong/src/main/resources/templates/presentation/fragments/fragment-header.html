@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" >
+<body>
+<header th:fragment="header">
+    <div class="container-fluid">
+        <div class="row py-3 border-bottom">
+
+            <div class="col-sm-4 col-lg-3 text-center text-sm-start">
+                <div class="main-logo">
+                    <a href="index">
+                        <img src="images/logo-new.png" alt="logo" class="img-fluid">
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-5 d-none d-lg-block">
+                <div class="search-bar row  p-2 my-2 rounded-4">
+                    <div class="col-1"></div>
+                </div>
+            </div>
+
+            <div class="col-sm-8 col-lg-4 d-flex justify-content-end gap-5 align-items-center mt-4 mt-sm-0 justify-content-center justify-content-sm-end">
+
+                <ul class="d-flex justify-content-end list-unstyled m-0">
+                    <li>
+                        <a href="#" class="rounded-circle bg-light p-2 mx-1">
+                            <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#user"></use></svg>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row py-3">
+            <div class="d-flex  justify-content-center justify-content-sm-between align-items-center">
+                <nav class="main-menu d-flex navbar navbar-expand-lg">
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                            aria-controls="offcanvasNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+
+                        <div class="offcanvas-header justify-content-center">
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+
+                        <div class="offcanvas-body">
+
+                            <!--navigation bar-->
+                            <ul class="navbar-nav justify-content-end menu-list list-unstyled d-flex gap-md-3 mb-0" th:fragment="navigation">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" role="button" id="pages" data-bs-toggle="dropdown" aria-expanded="false">Brand</a>
+                                    <ul class="dropdown-menu" aria-labelledby="pages">
+                                        <li><a href="index" class="dropdown-item"> About Us </a></li>
+                                        <li><a href="index" class="dropdown-item"> Price </a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item active">
+                                    <a href="/purchase" class="nav-link">시간 충전</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a href="/seat" class="nav-link">실시간 자리 현황</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/report" class="nav-link">불편 신고하기</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>    
+            </div>
+        </div>
+    </div>
+</header>
+</body>
+</html>
