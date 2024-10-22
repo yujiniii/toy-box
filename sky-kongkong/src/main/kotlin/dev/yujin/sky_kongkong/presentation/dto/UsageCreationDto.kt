@@ -7,13 +7,12 @@ import java.util.Optional
 
 
 data class UsageCreationDto (
-    val deskNumber: Number,
-    val checkIn: LocalDateTime,
+    val seatId: Int,
 ) {
     fun toEntity(user: User): Usage {
         return Usage(
             user = user,
-            deskNumber = deskNumber,
+            seatId = seatId,
             checkIn = LocalDateTime.now(),
         )
     }

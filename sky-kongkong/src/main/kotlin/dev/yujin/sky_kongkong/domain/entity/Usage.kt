@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "usage")
 class Usage(
-    deskNumber: Number,
+    seatId: Int,
     checkIn: LocalDateTime,
     user: User?,
     isActive: Boolean = true,
@@ -20,8 +20,8 @@ class Usage(
     @Column(name = "usage_id") /* column mapping */
     var usageId: Long? = null /* spring에서 null로 보내면, DB에서 auto_increment */
 
-    @Column(name = "desk_number")
-    var deskNumber: Number = deskNumber
+    @Column(name = "seat_id")
+    var seatId: Int = seatId
 
     @Column(name = "check_in")
     var checkIn: LocalDateTime = checkIn
@@ -34,19 +34,19 @@ class Usage(
 
     @ManyToOne(targetEntity = User::class, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    lateinit var user: User
+    var user: User? = user
 
     @Column(name = "is_active")
     var isActive: Boolean = isActive
 
     fun update(
-        deskNumber: Number,
+        seatId: Int,
         isActive: Boolean,
         checkIn: LocalDateTime,
         useMinutes: Number?,
         checkOut: LocalDateTime?,
     ) {
-        this.deskNumber = deskNumber
+        this.seatId = seatId
         this.checkIn = checkIn
         this.useMinutes = useMinutes
         this.checkOut = checkOut

@@ -1,9 +1,7 @@
 package dev.yujin.sky_kongkong.domain
 
-import dev.yujin.sky_kongkong.domain.repository.ReportRepository
-import dev.yujin.sky_kongkong.domain.repository.UsageRepository
-import dev.yujin.sky_kongkong.domain.repository.UserRepository
-import dev.yujin.sky_kongkong.domain.repository.UserTimeRepository
+import dev.yujin.sky_kongkong.domain.entity.Seat
+import dev.yujin.sky_kongkong.domain.repository.*
 import jakarta.annotation.PostConstruct
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
@@ -15,10 +13,17 @@ class DataInitializer(
     private val usageRepository: UsageRepository,
     private val reportRepository: ReportRepository,
     private val userRepository: UserRepository,
-    private val userTimeRepository: UserTimeRepository
+    private val userTimeRepository: UserTimeRepository,
+    private val seatRepository: SeatRepository
 ) {
     @PostConstruct
     fun initializeData(){
         println("실행맨")
+
+        val seats = mutableListOf<Seat>()
+        for (i in 1..40) {
+            seats.add(Seat(i, false))
+        }
+        seatRepository.saveAll(seats)
     }
 }

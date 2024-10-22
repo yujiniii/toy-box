@@ -52,9 +52,8 @@ class UserService(
     @Transactional(readOnly = false)
     fun register(dto: UserCreationDto): UserDto {
         val user = userRepository.findByPhoneIs(dto.phone)
-        println(user)
 
-        if (!user.isEmpty) {
+        if (user.isPresent) {
             throw BadRequestException("이미 회원가입하셨습니다. 로그인해주세요")
         }
 

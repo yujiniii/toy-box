@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 
 data class UsageDto (
     val usageId: Long?,
-    val deskNumber: Number,
+    val seatId: Int,
     val checkIn: LocalDateTime,
     val useMinutes: Number?,
     val checkOut: LocalDateTime?

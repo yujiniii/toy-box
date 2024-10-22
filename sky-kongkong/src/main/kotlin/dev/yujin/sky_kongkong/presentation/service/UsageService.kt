@@ -1,5 +1,7 @@
 package dev.yujin.sky_kongkong.presentation.service
 
+import dev.yujin.sky_kongkong.domain.entity.Seat
+import dev.yujin.sky_kongkong.domain.repository.SeatRepository
 import dev.yujin.sky_kongkong.domain.repository.UsageRepository
 import dev.yujin.sky_kongkong.domain.repository.UserRepository
 import dev.yujin.sky_kongkong.domain.repository.UserTimeRepository
@@ -19,6 +21,7 @@ import kotlin.concurrent.thread
 class UsageService(
     private val userRepository: UserRepository,
     private val usageRepository: UsageRepository,
+    private val seatRepository: SeatRepository
 
     ) {
 
@@ -34,7 +37,7 @@ class UsageService(
 
         return UsageDto(
             usageId = usage.usageId,
-            deskNumber = usage.deskNumber,
+            seatId = usage.seatId,
             checkIn = usage.checkIn,
             checkOut = usage.checkOut,
             useMinutes = usage.useMinutes
@@ -48,12 +51,30 @@ class UsageService(
         }
 
         if(user.timeInfo.remainMinutes <= 0){
-            BadRequestException("먼저 시간을 충전해주세요")
+            throw BadRequestException("먼저 시간을 충전해주세요")
         }
 
-        val usage = usageRepository.findByIsActiveAndUser_UserIdIs(true, userId).orElseThrow {
-            BadRequestException("먼저 퇴실해주세요")
+        val usage = usageRepository.findByIsActiveAndUser_UserIdIs(true, userId)
+        println(usage)
+
+        if(usage.isPresent){
+            throw BadRequestException("먼저 퇴실해주세요")
         }
+
+        val seat = seatRepository.findById(dto.seatId).orElseThrow{
+            BadRequestException("유효하지 않은 좌석입니다")
+        }
+
+        if(seat.isActive){
+            throw BadRequestException("사용중인 좌석입니다.")
+        }
+
+        seatRepository.save(
+            Seat(
+                seatId = dto.seatId,
+                isActive = true,
+            )
+        )
 
         usageRepository.save(dto.toEntity(user))
 
@@ -71,11 +92,18 @@ class UsageService(
             BadRequestException("먼저 입실해주세요")
         }
 
-        if(usage.user.userId != userId){
+        if(usage.user?.userId != userId){
             throw BadRequestException("본인 계정으로만 퇴실할 수 있습니다")
         }
 
-        usageRepository.save(UsageUpdateDto(LocalDateTime.now()).toEntity(usage))
+        seatRepository.save(
+            Seat(
+                seatId = usage.seatId,
+                isActive = false,
+            )
+        )
+
+        usageRepository.save(UsageUpdateDto(LocalDateTime.now()).toEntity(usage, false))
         return "ok"
     }
 
