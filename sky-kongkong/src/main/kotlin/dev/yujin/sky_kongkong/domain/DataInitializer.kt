@@ -1,9 +1,12 @@
 package dev.yujin.sky_kongkong.domain
 
 import dev.yujin.sky_kongkong.domain.entity.Seat
+import dev.yujin.sky_kongkong.domain.entity.User
 import dev.yujin.sky_kongkong.domain.repository.*
 import jakarta.annotation.PostConstruct
 import org.springframework.context.annotation.Profile
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 
 // bean 등록을 알려주는 어노테이션
@@ -14,7 +17,8 @@ class DataInitializer(
     private val reportRepository: ReportRepository,
     private val userRepository: UserRepository,
     private val userTimeRepository: UserTimeRepository,
-    private val seatRepository: SeatRepository
+    private val seatRepository: SeatRepository,
+    private val passwordEncoder: PasswordEncoder
 ) {
     @PostConstruct
     fun initializeData(){
@@ -25,5 +29,9 @@ class DataInitializer(
             seats.add(Seat(i, false))
         }
         seatRepository.saveAll(seats)
+
+        val pw = passwordEncoder.encode("test")
+        val tester = User("test", "01011112222", pw)
+        userRepository.save(tester)
     }
 }

@@ -1,10 +1,12 @@
 package dev.yujin.sky_kongkong.presentation.controller
 
+import dev.yujin.sky_kongkong.domain.security.CustomUserDetails
 import dev.yujin.sky_kongkong.presentation.dto.ReportCreationDto
 import dev.yujin.sky_kongkong.presentation.dto.ReportDto
 import dev.yujin.sky_kongkong.presentation.dto.UserDto
 import dev.yujin.sky_kongkong.presentation.service.ReportService
 import dev.yujin.sky_kongkong.presentation.service.UserService
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -35,20 +37,18 @@ class ReportController(
 
     @PostMapping("")
     fun createNewReport(
-        @RequestHeader header: RequestHeader,
+        @AuthenticationPrincipal user: CustomUserDetails,
         @RequestBody body: ReportCreationDto
     ){
-        val userId: Long = 1 // @todo change userId from session or cookie
-        reportService.createNewReport(userId, body)
+        reportService.createNewReport(user.getUserId(), body)
     }
 
     @GetMapping("/{reportId}")
     fun getReportById(
-        @RequestHeader header: RequestHeader,
+        @AuthenticationPrincipal user: CustomUserDetails,
         @RequestParam reportId: String
     ): ReportDto {
-        val userId: Long = 1 // @todo change userId from session or cookie
-        return reportService.getReportById(userId, reportId.toLong())
+        return reportService.getReportById(user.getUserId(), reportId.toLong())
     }
 
 

@@ -1,11 +1,14 @@
 package dev.yujin.sky_kongkong.presentation.controller
 
+import dev.yujin.sky_kongkong.domain.security.CustomUserDetails
 import dev.yujin.sky_kongkong.presentation.dto.UserCreationDto
 import dev.yujin.sky_kongkong.presentation.dto.UserDto
 import dev.yujin.sky_kongkong.presentation.dto.UserLoginDto
 import dev.yujin.sky_kongkong.presentation.dto.UserTimeDto
 import dev.yujin.sky_kongkong.presentation.service.UserService
 import org.apache.catalina.User
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -13,19 +16,6 @@ import org.springframework.web.bind.annotation.*
 class UserController(
     private val userService: UserService
 ) {
-
-//    // admin @todo 컨트롤러 분리
-//    @GetMapping("")
-//    fun getAllUsers(): List<UserDto> {
-//        return userService.getUsers()
-//    }
-//
-//    // admin  @todo 컨트롤러 분리
-//    @GetMapping("/{userId}")
-//    fun getUserById() {
-//        // @todo implement
-//    }
-
     @PostMapping("/register")
     fun register(
         @RequestBody body: UserCreationDto
@@ -42,16 +32,24 @@ class UserController(
 
     @PostMapping("/add")
     fun addTime(
+        @AuthenticationPrincipal user: CustomUserDetails,
         @RequestBody body: UserTimeDto
     ): String {
-        val userId: Long = 1 // @todo change userId from session or cookie
-        return userService.addTimes(userId, body)
+        return userService.addTimes(user.getUserId(), body)
+    }
+
+    @GetMapping("/me")
+    fun me(
+        @AuthenticationPrincipal user: CustomUserDetails,
+    ): Long {
+        return user.getUserId()
     }
 
     @PostMapping("/withdraw")
-    fun withdraw(): String {
-        val userId: Long = 1 // @todo change userId from session or cookie
-        return userService.withdraw(userId)
+    fun withdraw(
+        @AuthenticationPrincipal user: CustomUserDetails,
+        ): String {
+        return userService.withdraw(user.getUserId())
     }
 
 
@@ -60,3 +58,17 @@ class UserController(
         // @todo implement
     }
 }
+
+
+
+//    // admin @todo 컨트롤러 분리
+//    @GetMapping("")
+//    fun getAllUsers(): List<UserDto> {
+//        return userService.getUsers()
+//    }
+//
+//    // admin  @todo 컨트롤러 분리
+//    @GetMapping("/{userId}")
+//    fun getUserById() {
+//        // @todo implement
+//    }

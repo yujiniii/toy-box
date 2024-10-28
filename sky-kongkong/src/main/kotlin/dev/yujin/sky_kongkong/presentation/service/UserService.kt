@@ -3,11 +3,14 @@ package dev.yujin.sky_kongkong.presentation.service
 import dev.yujin.sky_kongkong.domain.entity.UserTime
 import dev.yujin.sky_kongkong.domain.repository.UserRepository
 import dev.yujin.sky_kongkong.domain.repository.UserTimeRepository
+import dev.yujin.sky_kongkong.domain.security.CustomUserDetails
 import dev.yujin.sky_kongkong.presentation.dto.UserCreationDto
 import dev.yujin.sky_kongkong.presentation.dto.UserDto
 import dev.yujin.sky_kongkong.presentation.dto.UserLoginDto
 import dev.yujin.sky_kongkong.presentation.dto.UserTimeDto
 import org.apache.coyote.BadRequestException
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -20,7 +23,7 @@ class UserService(
     private val passwordEncoder: PasswordEncoder,
     private val userTimeRepository: UserTimeRepository
 
-) {
+): UserDetailsService {
 
     @Transactional(readOnly = true)
     fun getUsers(): List<UserDto> {
@@ -87,5 +90,20 @@ class UserService(
     fun withdraw(userId: Long): String {
         userRepository.deleteById(userId)
         return "ok"
+    }
+
+    override fun loadUserByUsername(phone: String): CustomUserDetails {
+        println(phone)
+        val user =  userRepository.findByPhoneIs(phone).orElseThrow{
+            throw BadRequestException("사용자 정보를 찾을 수 없습니다.")
+        }
+
+        return CustomUserDetails(
+            userId = user.userId!!,
+            username = user.phone,
+            password = user.password,
+            authorities = listOf()  // 권한이 있다면 설정
+        )
+
     }
 }

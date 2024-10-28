@@ -1,6 +1,9 @@
 package dev.yujin.sky_kongkong.domain.entity
 
 import jakarta.persistence.*
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
 
 
 @Entity
@@ -9,7 +12,7 @@ class User(
     name: String,
     phone: String,
     password: String
-) : BaseEntity() {
+) : BaseEntity(), UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     /* auto_increment */
@@ -23,7 +26,7 @@ class User(
     var phone: String = phone
 
     @Column(name = "password", nullable = false)
-    var password: String = password
+    private var password: String = password
 
     @OneToOne(
         targetEntity = UserTime::class,
@@ -47,5 +50,17 @@ class User(
     fun assignTimeInfo(timeInfo: UserTime) {
         this.timeInfo = timeInfo
         timeInfo.user = this // 양방향 관계 설정
+    }
+
+    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
+        return mutableListOf(SimpleGrantedAuthority("USER"))
+    }
+
+    override fun getPassword() : String{
+        return password
+    }
+
+    override fun getUsername() : String {
+        return username
     }
 }

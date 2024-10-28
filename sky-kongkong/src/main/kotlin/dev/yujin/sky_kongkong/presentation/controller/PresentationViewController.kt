@@ -17,6 +17,7 @@ class PresentationViewController(
     fun sayHello(): String {
         return "Hello"
     }
+
     @GetMapping("")
     fun view(): String {
         return "presentation/index"
@@ -31,5 +32,16 @@ class PresentationViewController(
         model.addAttribute("seatCount", seatCount)
 
         return "presentaion/seat"
+    }
+
+    @GetMapping("/login")
+    fun login(): String {
+        return "presentation/login"
+    }
+
+
+    @GetMapping("/register")
+    fun register(): String {
+        return "presentation/register"
     }
 }
