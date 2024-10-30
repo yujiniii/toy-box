@@ -1,0 +1,3 @@
+[submodule "morning-letter"]
+	path = morning-letter
+	url = https://github.com/yujiniii/morning-letter.git
