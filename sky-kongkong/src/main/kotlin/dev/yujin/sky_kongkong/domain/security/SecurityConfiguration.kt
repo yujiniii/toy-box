@@ -15,9 +15,9 @@ class SecurityConfiguration {
             .authorizeHttpRequests { authorizeHttpRequests ->
                 authorizeHttpRequests
                     .requestMatchers("/css/**", "/js/**", "/images/**", "/h2-console/**").permitAll() // 정적 리소스 허용
-                    .requestMatchers(AntPathRequestMatcher("/login/**")).permitAll()
-                    .requestMatchers(AntPathRequestMatcher("/**")).authenticated()
-                    .anyRequest().permitAll()
+                    .requestMatchers("/api/auth/**").permitAll() // api/auth 요청 허용
+                    .requestMatchers("/login", "/register").permitAll() // 로그인 및 회원가입 요청 허용
+                    .anyRequest().authenticated() // 나머지 요청은 인증 필요
             }.csrf { csrf ->
                 csrf.disable()
             }.headers { headers ->
@@ -25,7 +25,7 @@ class SecurityConfiguration {
             }.formLogin { formLogin ->
                 formLogin
                     .loginPage("/login")
-                    .loginProcessingUrl("/api/user/login")
+                    .loginProcessingUrl("/api/auth/login")
                     .defaultSuccessUrl("/", true)
             }.logout { logout ->
                 logout.logoutRequestMatcher(AntPathRequestMatcher("/logout"))

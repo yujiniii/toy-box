@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" >
+<head>
+</head>
+<body>
+
+<div th:fragment="price">
+
+    <table class="pricing-table">
+        <tr>
+            <th colspan="2" class="section-title">당일권</th>
+        </tr>
+        <tr>
+            <td>1시간</td>
+            <td>3,000원</td>
+        </tr>
+        <tr class="highlight">
+            <td>4시간</td>
+            <td>10,000원</td>
+        </tr>
+        <tr>
+            <td>8시간</td>
+            <td>20,000원</td>
+        </tr>
+
+        <tr>
+            <th colspan="2" class="section-title">시간권</th>
+        </tr>
+        <tr>
+            <td>50시간</td>
+            <td>170,000원</td>
+        </tr>
+        <tr class="highlight">
+            <td>100시간</td>
+            <td>300,000원</td>
+        </tr>
+    </table>
+
+
+    <style>
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            margin-top: 20px;
+        }
+        .pricing-table th, .pricing-table td {
+            padding: 15px;
+            text-align: center;
+        }
+        .pricing-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .pricing-table td {
+            border-bottom: 1px solid #ddd;
+        }
+        .highlight {
+            background-color: #f9f9f9;
+            font-weight: bold;
+        }
+        .section-title {
+            font-size: 1.2em;
+            text-align: left;
+            padding-left: 15px;
+            background-color: #f4f4f4;
+        }
+    </style>
+</div>
+</body>
+</html>

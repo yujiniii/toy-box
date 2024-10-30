@@ -6,7 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails
 
 class CustomUserDetails(
     private val userId: Long,
-    private val username: String,
+    private val username: String, // phone number is unique username
+    private val displayName: String,
     private val password: String,
     private val authorities: Collection<GrantedAuthority>
 ) : UserDetails {
@@ -20,4 +21,5 @@ class CustomUserDetails(
     override fun isEnabled() = true
 
     fun getUserId(): Long = userId
+    fun getDisplayName(): String = displayName
 }

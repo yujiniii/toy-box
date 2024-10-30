@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <div th:replace="~{/presentation/fragments/fragment-header :: header}"></div>
+  <div th:replace="~{/presentation/fragments/fragment-header :: header(${username != null ? username : null})}"></div>
 
 
 

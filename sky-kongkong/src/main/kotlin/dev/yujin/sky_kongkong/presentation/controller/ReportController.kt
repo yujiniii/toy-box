@@ -7,17 +7,10 @@ import dev.yujin.sky_kongkong.presentation.dto.UserDto
 import dev.yujin.sky_kongkong.presentation.service.ReportService
 import dev.yujin.sky_kongkong.presentation.service.UserService
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestHeader
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.*
 
-@RestController
+@Controller
 @RequestMapping("/api/report")
 class ReportController(
     private val reportService: ReportService
@@ -38,9 +31,12 @@ class ReportController(
     @PostMapping("")
     fun createNewReport(
         @AuthenticationPrincipal user: CustomUserDetails,
-        @RequestBody body: ReportCreationDto
-    ){
+        @ModelAttribute body: ReportCreationDto
+    ): String{
         reportService.createNewReport(user.getUserId(), body)
+
+        return "redirect:/"
+
     }
 
     @GetMapping("/{reportId}")

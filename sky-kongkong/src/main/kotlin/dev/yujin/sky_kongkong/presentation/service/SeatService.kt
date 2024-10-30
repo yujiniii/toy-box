@@ -15,7 +15,8 @@ import kotlin.concurrent.thread
 
 @Service
 class SeatService(
-    private val seatRepository: SeatRepository
+    private val seatRepository: SeatRepository,
+    private val usageRepository: UsageRepository
     ) {
 
     @Transactional(readOnly = true)
@@ -28,5 +29,13 @@ class SeatService(
     fun getRemainSeatCount(): Long {
         val remainSeatCount = seatRepository.countSeatByIsActiveIs(false)
         return remainSeatCount
+    }
+
+    @Transactional(readOnly = true)
+    fun getUserReservedSeat(userId: Long): SeatDto? {
+        val usage = usageRepository.findByIsActiveAndUser_UserIdIs(true, userId)
+        return usage?.let {
+            SeatDto(seatId = it.seatId, isActive = it.isActive)
+        }
     }
 }

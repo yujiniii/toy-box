@@ -31,9 +31,8 @@ class UsageService(
             BadRequestException("사용자 정보를 확인해주세요")
         }
 
-        val usage = usageRepository.findByIsActiveAndUser_UserIdIs(true, userId).orElseThrow {
-            BadRequestException("먼저 입실해주세요")
-        }
+        val usage = usageRepository.findByIsActiveAndUser_UserIdIs(true, userId)
+            ?: throw BadRequestException("먼저 입실해주세요")
 
         return UsageDto(
             usageId = usage.usageId,
@@ -53,11 +52,10 @@ class UsageService(
         if(user.timeInfo.remainMinutes <= 0){
             throw BadRequestException("먼저 시간을 충전해주세요")
         }
-
         val usage = usageRepository.findByIsActiveAndUser_UserIdIs(true, userId)
         println(usage)
 
-        if(usage.isPresent){
+        if (usage != null) {
             throw BadRequestException("먼저 퇴실해주세요")
         }
 

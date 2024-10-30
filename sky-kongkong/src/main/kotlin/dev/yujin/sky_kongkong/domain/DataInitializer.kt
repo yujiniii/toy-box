@@ -2,6 +2,7 @@ package dev.yujin.sky_kongkong.domain
 
 import dev.yujin.sky_kongkong.domain.entity.Seat
 import dev.yujin.sky_kongkong.domain.entity.User
+import dev.yujin.sky_kongkong.domain.entity.UserTime
 import dev.yujin.sky_kongkong.domain.repository.*
 import jakarta.annotation.PostConstruct
 import org.springframework.context.annotation.Profile
@@ -31,7 +32,12 @@ class DataInitializer(
         seatRepository.saveAll(seats)
 
         val pw = passwordEncoder.encode("test")
+        val time = UserTime(0)
+
         val tester = User("test", "01011112222", pw)
+        tester.assignTimeInfo(time)
         userRepository.save(tester)
+
+
     }
 }

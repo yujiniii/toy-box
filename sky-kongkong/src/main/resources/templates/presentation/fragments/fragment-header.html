@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" >
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <body>
-<header th:fragment="header">
+<header th:fragment="header(username)">
     <div class="container-fluid">
         <div class="row py-3 border-bottom">
 
             <div class="col-sm-4 col-lg-3 text-center text-sm-start">
                 <div class="main-logo">
-                    <a href="index">
+                    <a href="/">
                         <img src="images/logo-new.png" alt="logo" class="img-fluid">
                     </a>
                 </div>
@@ -20,7 +20,7 @@
             </div>
 
             <div class="col-sm-8 col-lg-4 d-flex justify-content-end gap-5 align-items-center mt-4 mt-sm-0 justify-content-center justify-content-sm-end">
-
+                <p>환영합니다, <span th:text="${username != null ? username : '게스트'}">name</span>님!</p>
                 <ul class="d-flex justify-content-end list-unstyled m-0">
                     <li>
                         <a href="#" class="rounded-circle bg-light p-2 mx-1">
@@ -47,7 +47,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
 
-                        <div class="offcanvas-body">
+                        <div class="offcanvas-body" th:if="${username != null}">
 
                             <!--navigation bar-->
                             <ul class="navbar-nav justify-content-end menu-list list-unstyled d-flex gap-md-3 mb-0" th:fragment="navigation">
@@ -59,7 +59,7 @@
                                     </ul>
                                 </li>
                                 <li class="nav-item active">
-                                    <a href="/purchase" class="nav-link">시간 충전</a>
+                                    <a href="/add-time" class="nav-link">시간 충전</a>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a href="/seat" class="nav-link">실시간 자리 현황</a>

@@ -75,12 +75,12 @@ class UserService(
     }
 
     @Transactional(readOnly = false)
-    fun addTimes(userId: Long, dto: UserTimeDto): String {
+    fun addTimes(userId: Long, minutes: Int): String {
         val userTime = userTimeRepository.findByUser_UserId(userId).orElseThrow{
             throw BadRequestException("해당 사용자의 시간 정보를 찾을 수 없습니다.")
         }
 
-        userTime.updateRemainMinutes(dto.remainMinutes)
+        userTime.updateRemainMinutes(minutes)
 
         userTimeRepository.save(userTime)
 
@@ -101,6 +101,7 @@ class UserService(
         return CustomUserDetails(
             userId = user.userId!!,
             username = user.phone,
+            displayName = user.name,
             password = user.password,
             authorities = listOf()  // 권한이 있다면 설정
         )

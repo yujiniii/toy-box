@@ -26,7 +26,7 @@ class CafeController(
     @PostMapping("/enter")
     fun enterCafe(
         @AuthenticationPrincipal user: CustomUserDetails,
-        @RequestBody body: UsageCreationDto
+        @ModelAttribute body: UsageCreationDto
     ): String {
         return usageService.enterCafe(user.getUserId(), body)
     }
