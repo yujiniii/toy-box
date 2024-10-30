@@ -1,76 +1,75 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" >
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <div th:replace="~{/presentation/fragments/fragment-head :: head}"></div>
 
 
-  <body>
+<body>
 
-  <div th:replace="~{/presentation/fragments/fragment-svg :: svg}"></div>
+<div th:replace="~{/presentation/fragments/fragment-svg :: svg}"></div>
 
-    <div class="preloader-wrapper">
-      <div class="preloader">
-      </div>
+<div class="preloader-wrapper">
+    <div class="preloader">
     </div>
+</div>
 
-  <div th:replace="~{/presentation/fragments/fragment-header :: header(${username != null ? username : null})}"></div>
+<div th:replace="~{/presentation/fragments/fragment-header :: header(${username != null ? username : null})}"></div>
 
 
-
-  <div class="container mt-5 mb-5">
-  <h2>스터디카페 실시간 자리 현황</h2>
+<div class="container mt-5 mb-5">
+    <h2>스터디카페 실시간 자리 현황</h2>
     남은 좌석 : <span th:text="${seatCount}"></span>
     <div class="row">
-    <!-- 5행 반복 (1차원 배열을 8개씩 나누어 5x8로 출력) -->
-    <div th:each="rowIndex : ${#numbers.sequence(0, 4)}" class="d-flex justify-content-center">
-      <!-- 좌석 4개 -->
-      <div th:each="seat : ${seats.subList(rowIndex * 8, rowIndex * 8 + 4)}" class="seat"
-           th:classappend="${seat.isActive} ? 'isActive' : 'empty'">
-        <span class="seat-number" th:text="${seat.seatId}"></span>
-      </div>
+        <!-- 5행 반복 (1차원 배열을 8개씩 나누어 5x8로 출력) -->
+        <div th:each="rowIndex : ${#numbers.sequence(0, 4)}" class="d-flex justify-content-center">
+            <!-- 좌석 4개 -->
+            <div th:each="seat : ${seats.subList(rowIndex * 8, rowIndex * 8 + 4)}" class="seat"
+                 th:classappend="${seat.isActive} ? 'isActive' : 'empty'">
+                <span class="seat-number" th:text="${seat.seatId}"></span>
+            </div>
 
-      <!-- 가운데 줄 마진을 포함하는 빈칸 -->
-      <div class="seat-divider"></div>
+            <!-- 가운데 줄 마진을 포함하는 빈칸 -->
+            <div class="seat-divider"></div>
 
-      <!-- 좌석 나머지 4개 -->
-      <div th:each="seat : ${seats.subList(rowIndex * 8 + 4, rowIndex * 8 + 8)}" class="seat"
-           th:classappend="${seat.isActive} ? 'isActive' : 'empty'">
-        <span class="seat-number" th:text="${seat.seatId}"></span>
-      </div>
+            <!-- 좌석 나머지 4개 -->
+            <div th:each="seat : ${seats.subList(rowIndex * 8 + 4, rowIndex * 8 + 8)}" class="seat"
+                 th:classappend="${seat.isActive} ? 'isActive' : 'empty'">
+                <span class="seat-number" th:text="${seat.seatId}"></span>
+            </div>
+        </div>
     </div>
-  </div>
-  </div>
+</div>
 
-
-
-    <!-- footer -->
-    <div th:replace="~{presentation/fragments/fragment-footer :: footer}"></div>
-  <style>
+<style>
     .seat {
-      width: 50px;
-      height: 50px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 1px solid #ccc;
-      margin: 5px;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #ccc;
+        margin: 5px;
     }
+
     .isActive {
-      background-color: #ffcccc; /* 사용 중 좌석 색상 */
+        background-color: #ffcccc; /* 사용 중 좌석 색상 */
     }
+
     .empty {
-      background-color: #d3d3d3; /* 사용 가능 좌석 색상 */
+        background-color: #d3d3d3; /* 사용 가능 좌석 색상 */
     }
+
     .seat-number {
-      font-weight: bold;
+        font-weight: bold;
     }
+
     /* 가운데 줄에 마진을 추가 */
     .seat-divider {
-      margin-right: 20px; /* 빨간 줄에 해당하는 마진 */
+        margin-right: 20px; /* 빨간 줄에 해당하는 마진 */
     }
-  </style>
+</style>
 
-  <!-- footer -->
-  <div th:replace="~{presentation/fragments/fragment-footer :: footer}"></div>
+<!-- footer -->
+<div th:replace="~{presentation/fragments/fragment-footer :: footer}"></div>
 
-  </body>
+</body>
 </html>

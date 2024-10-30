@@ -8,5 +8,5 @@ import java.util.*
 
 interface UserTimeRepository : JpaRepository<UserTime, Long> {
 
-    fun findByUser_UserId(userId: Long):Optional<UserTime>
+    fun findByUser_UserId(userId: Long): Optional<UserTime>
 }

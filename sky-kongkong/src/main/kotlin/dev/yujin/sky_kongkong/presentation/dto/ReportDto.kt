@@ -8,9 +8,9 @@ data class ReportDto(
     val category: String,
     val detail: String,
 ) {
-   constructor(report: Report) :  this (
-       isSolved = report.isSolved,
-       category = report.category.name,
-       detail = report.detail
-   )
+    constructor(report: Report) : this(
+        isSolved = report.isSolved,
+        category = report.category.name,
+        detail = report.detail
+    )
 }

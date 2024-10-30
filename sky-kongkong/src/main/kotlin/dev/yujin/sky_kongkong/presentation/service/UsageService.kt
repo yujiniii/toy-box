@@ -23,11 +23,11 @@ class UsageService(
     private val usageRepository: UsageRepository,
     private val seatRepository: SeatRepository
 
-    ) {
+) {
 
     @Transactional(readOnly = true)
     fun getUserUsage(userId: Long): UsageDto {
-        val user = userRepository.findById(userId).orElseThrow{
+        val user = userRepository.findById(userId).orElseThrow {
             BadRequestException("사용자 정보를 확인해주세요")
         }
 
@@ -45,11 +45,11 @@ class UsageService(
 
     @Transactional(readOnly = false)
     fun enterCafe(userId: Long, dto: UsageCreationDto): String {
-        val user = userRepository.findById(userId).orElseThrow{
+        val user = userRepository.findById(userId).orElseThrow {
             BadRequestException("사용자 정보를 확인해주세요")
         }
 
-        if(user.timeInfo.remainMinutes <= 0){
+        if (user.timeInfo.remainMinutes <= 0) {
             throw BadRequestException("먼저 시간을 충전해주세요")
         }
         val usage = usageRepository.findByIsActiveAndUser_UserIdIs(true, userId)
@@ -59,11 +59,11 @@ class UsageService(
             throw BadRequestException("먼저 퇴실해주세요")
         }
 
-        val seat = seatRepository.findById(dto.seatId).orElseThrow{
+        val seat = seatRepository.findById(dto.seatId).orElseThrow {
             BadRequestException("유효하지 않은 좌석입니다")
         }
 
-        if(seat.isActive){
+        if (seat.isActive) {
             throw BadRequestException("사용중인 좌석입니다.")
         }
 
@@ -81,7 +81,7 @@ class UsageService(
 
     @Transactional(readOnly = false)
     fun leaveCafe(userId: Long, usageId: Long): String {
-        val user = userRepository.findById(userId).orElseThrow{
+        val user = userRepository.findById(userId).orElseThrow {
             BadRequestException("사용자 정보를 확인해주세요")
         }
 
@@ -90,7 +90,7 @@ class UsageService(
             BadRequestException("먼저 입실해주세요")
         }
 
-        if(usage.user?.userId != userId){
+        if (usage.user?.userId != userId) {
             throw BadRequestException("본인 계정으로만 퇴실할 수 있습니다")
         }
 
@@ -104,8 +104,6 @@ class UsageService(
         usageRepository.save(UsageUpdateDto(LocalDateTime.now()).toEntity(usage, false))
         return "ok"
     }
-
-
 
 
 }

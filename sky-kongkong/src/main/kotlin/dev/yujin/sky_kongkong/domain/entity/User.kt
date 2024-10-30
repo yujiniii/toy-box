@@ -56,11 +56,11 @@ class User(
         return mutableListOf(SimpleGrantedAuthority("USER"))
     }
 
-    override fun getPassword() : String{
+    override fun getPassword(): String {
         return password
     }
 
-    override fun getUsername() : String {
+    override fun getUsername(): String {
         return username
     }
 }

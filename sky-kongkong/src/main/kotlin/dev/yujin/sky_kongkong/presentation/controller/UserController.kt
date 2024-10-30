@@ -30,7 +30,7 @@ class UserController(
     @PostMapping("/withdraw")
     fun withdraw(
         @AuthenticationPrincipal user: CustomUserDetails,
-        ): String {
+    ): String {
         return userService.withdraw(user.getUserId())
     }
 
@@ -40,17 +40,3 @@ class UserController(
         // @todo implement
     }
 }
-
-
-
-//    // admin @todo 컨트롤러 분리
-//    @GetMapping("")
-//    fun getAllUsers(): List<UserDto> {
-//        return userService.getUsers()
-//    }
-//
-//    // admin  @todo 컨트롤러 분리
-//    @GetMapping("/{userId}")
-//    fun getUserById() {
-//        // @todo implement
-//    }

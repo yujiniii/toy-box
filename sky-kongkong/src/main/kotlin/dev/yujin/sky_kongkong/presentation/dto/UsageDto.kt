@@ -4,7 +4,7 @@ import dev.yujin.sky_kongkong.domain.entity.User
 import java.time.LocalDateTime
 
 
-data class UsageDto (
+data class UsageDto(
     val usageId: Long?,
     val seatId: Int,
     val checkIn: LocalDateTime,

@@ -15,38 +15,14 @@ import org.springframework.web.bind.annotation.*
 class ReportController(
     private val reportService: ReportService
 ) {
-
-//    // admin @todo 컨트롤러 분리
-//    @GetMapping("")
-//    fun getUserCafeInfo() {
-//        // @todo implement
-//    }
-//
-//    // admin @todo 컨트롤러 분리
-//    @PutMapping("/{reportId}")
-//    fun editReportById() {
-//        // @todo implement
-//    }
-
     @PostMapping("")
     fun createNewReport(
         @AuthenticationPrincipal user: CustomUserDetails,
         @ModelAttribute body: ReportCreationDto
-    ): String{
+    ): String {
         reportService.createNewReport(user.getUserId(), body)
 
         return "redirect:/"
 
     }
-
-    @GetMapping("/{reportId}")
-    fun getReportById(
-        @AuthenticationPrincipal user: CustomUserDetails,
-        @RequestParam reportId: String
-    ): ReportDto {
-        return reportService.getReportById(user.getUserId(), reportId.toLong())
-    }
-
-
-
 }

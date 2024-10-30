@@ -23,7 +23,7 @@ class UserService(
     private val passwordEncoder: PasswordEncoder,
     private val userTimeRepository: UserTimeRepository
 
-): UserDetailsService {
+) : UserDetailsService {
 
     @Transactional(readOnly = true)
     fun getUsers(): List<UserDto> {
@@ -38,12 +38,12 @@ class UserService(
     }
 
     @Transactional(readOnly = true)
-    fun login(dto: UserLoginDto): UserDto{
+    fun login(dto: UserLoginDto): UserDto {
         val user = userRepository.findByPhoneIs(dto.phone).orElseThrow {
             throw BadRequestException("회원가입을 해 주세요")
         }
 
-        if(!passwordEncoder.matches(dto.password, user.password)) {
+        if (!passwordEncoder.matches(dto.password, user.password)) {
             throw BadRequestException("비밀번호가 틀렸습니다.")
         }
 
@@ -62,11 +62,13 @@ class UserService(
 
         val encodedPassword = passwordEncoder.encode(dto.password)
         println(encodedPassword)
-        val newUser = userRepository.save(UserCreationDto(
-            name = dto.name,
-            phone = dto.phone,
-            password = encodedPassword
-        ).toEntity())
+        val newUser = userRepository.save(
+            UserCreationDto(
+                name = dto.name,
+                phone = dto.phone,
+                password = encodedPassword
+            ).toEntity()
+        )
 
         val userTime = UserTime(remainMinutes = 0)
         newUser.assignTimeInfo(userTime)  // 연관관계 설정
@@ -76,7 +78,7 @@ class UserService(
 
     @Transactional(readOnly = false)
     fun addTimes(userId: Long, minutes: Int): String {
-        val userTime = userTimeRepository.findByUser_UserId(userId).orElseThrow{
+        val userTime = userTimeRepository.findByUser_UserId(userId).orElseThrow {
             throw BadRequestException("해당 사용자의 시간 정보를 찾을 수 없습니다.")
         }
 
@@ -94,7 +96,7 @@ class UserService(
 
     override fun loadUserByUsername(phone: String): CustomUserDetails {
         println(phone)
-        val user =  userRepository.findByPhoneIs(phone).orElseThrow{
+        val user = userRepository.findByPhoneIs(phone).orElseThrow {
             throw BadRequestException("사용자 정보를 찾을 수 없습니다.")
         }
 

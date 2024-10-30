@@ -1,76 +1,87 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" >
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <div th:replace="~{/presentation/fragments/fragment-head :: head}"></div>
 
-  <body>
-  <div th:replace="~{/presentation/fragments/fragment-svg :: svg}"></div>
+<body>
+<div th:replace="~{/presentation/fragments/fragment-svg :: svg}"></div>
 
-    <div class="preloader-wrapper">
-      <div class="preloader">
-      </div>
+<div class="preloader-wrapper">
+    <div class="preloader">
     </div>
+</div>
 
-    <div th:replace="~{/presentation/fragments/fragment-header :: header(${username})}"></div>
+<div th:replace="~{/presentation/fragments/fragment-header :: header(${username})}"></div>
 
-    
-    <section class="py-3" style="background-image: url('images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
-      <div class="container-fluid">
+
+<section class="py-3"
+         style="background-image: url('images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
+    <div class="container-fluid">
         <div class="row">
-          <div class="col-md-12">
+            <div class="col-md-12">
 
-            <div class="banner-blocks">
-            
-              <div class="banner-ad large bg-info block-1">
+                <div class="banner-blocks">
 
-                <div class="row banner-content p-5">
-                  <div class="content-wrapper col-md-7">
-                    <div class="categories mb-3">ᯓᡣᩚ𐭩</div>
-                    <h3 class="display-4">시간 충전하기</h3>
-                    <p>여기에서 시간을 충전할 수 있습니다.</p>
-                    <a href="/add-time" class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1 px-4 py-3 mt-3">GO</a>
-                  </div>
-                  <div class="img-wrapper col-md-5">
-                    <img src="images/charge-time.png" class="img-fluid">
-                  </div>
+                    <div class="banner-ad large bg-info block-1">
+
+                        <div class="row banner-content p-5">
+                            <div class="content-wrapper col-md-7">
+                                <div class="categories mb-3">ᯓᡣᩚ𐭩</div>
+                                <h3 class="display-4">시간 충전하기</h3>
+                                <p>여기에서 시간을 충전할 수 있습니다.</p>
+                                <a href="/add-time"
+                                   class="btn btn-outline-dark btn-lg text-uppercase fs-6 rounded-1 px-4 py-3 mt-3">GO</a>
+                            </div>
+                            <div class="img-wrapper col-md-5">
+                                <img src="images/charge-time.png" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="banner-ad bg-success-subtle block-2" OnClick="location.href ='/seat'"
+                         style="background:url('images/go-seat.png') no-repeat;background-position: right bottom;cursor: pointer;">
+
+                        <div class="row banner-content p-5">
+
+                            <div class="content-wrapper col-md-7">
+                                <div class="categories mb-3 pb-3">ᯓᡣᩚ𐭩</div>
+                                <h3 class="banner-title"> 실시간 자리 현황 </h3>
+                                <a href="#" class="d-flex align-items-center nav-link"> 오차가 있을 수 있습니다.
+                                    <svg width="24" height="24">
+                                        <use xlink:href="#arrow-right"></use>
+                                    </svg>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="banner-ad bg-danger block-3" OnClick="location.href ='/report'"
+                         style="background:url('images/report2.png')  no-repeat;background-position: right bottom; background-size: 327px;cursor: pointer;">
+                        <div class="row banner-content p-5">
+
+                            <div class="content-wrapper col-md-7">
+                                <div class="categories mb-3 pb-3">ᯓᡣᩚ𐭩</div>
+                                <h3 class="item-title">불편 신고</h3>
+                                <a href="#" class="d-flex align-items-center nav-link"> 불량 사용자 및 시설고장 등
+                                    <svg width="24" height="24">
+                                        <use xlink:href="#arrow-right"></use>
+                                    </svg>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
-              </div>
-
-
-              <div class="banner-ad bg-success-subtle block-2" OnClick="location.href ='/seat'" style="background:url('images/go-seat.png') no-repeat;background-position: right bottom;cursor: pointer;">
-
-                <div class="row banner-content p-5">
-
-                  <div class="content-wrapper col-md-7">
-                    <div class="categories mb-3 pb-3">ᯓᡣᩚ𐭩</div>
-                    <h3 class="banner-title"> 실시간 자리 현황  </h3>
-                    <a href="#" class="d-flex align-items-center nav-link"> 오차가 있을 수 있습니다. <svg width="24" height="24"><use xlink:href="#arrow-right"></use></svg></a>
-                  </div>
-
-                </div>
-              </div>
-
-
-
-              <div class="banner-ad bg-danger block-3" OnClick="location.href ='/report'"  style="background:url('images/report2.png')  no-repeat;background-position: right bottom; background-size: 327px;cursor: pointer;">
-                <div class="row banner-content p-5">
-
-                  <div class="content-wrapper col-md-7">
-                    <div class="categories mb-3 pb-3">ᯓᡣᩚ𐭩</div>
-                    <h3 class="item-title">불편 신고</h3>
-                    <a href="#" class="d-flex align-items-center nav-link"> 불량 사용자 및 시설고장 등 <svg width="24" height="24"><use xlink:href="#arrow-right"></use></svg></a>
-                  </div>
-
-                </div>
-              </div>
-
             </div>
-          </div>
         </div>
-      </div>
-    </section>
+    </div>
+</section>
 
-    <!-- footer -->
-    <div th:replace="~{presentation/fragments/fragment-footer :: footer}"></div>
+<!-- footer -->
+<div th:replace="~{presentation/fragments/fragment-footer :: footer}"></div>
 
-  </body>
+</body>
 </html>

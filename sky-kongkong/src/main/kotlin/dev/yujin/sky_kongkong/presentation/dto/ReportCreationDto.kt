@@ -6,7 +6,7 @@ import dev.yujin.sky_kongkong.domain.entity.User
 
 
 data class ReportCreationDto(
-    val category: ReportType=ReportType.User,
+    val category: ReportType = ReportType.User,
     val detail: String = "",
 ) {
 

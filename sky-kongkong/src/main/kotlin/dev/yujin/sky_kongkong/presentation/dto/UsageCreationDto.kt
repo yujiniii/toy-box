@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 import java.util.Optional
 
 
-data class UsageCreationDto (
+data class UsageCreationDto(
     val seatId: Int,
 ) {
     fun toEntity(user: User): Usage {

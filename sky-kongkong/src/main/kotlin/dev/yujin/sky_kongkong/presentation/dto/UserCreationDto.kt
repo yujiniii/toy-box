@@ -7,11 +7,11 @@ data class UserCreationDto(
     val phone: String = "",
     val password: String = ""
 ) {
-   constructor(user: User) :  this (
-       name = user.name,
-       phone = user.phone,
-       password = user.password
-   )
+    constructor(user: User) : this(
+        name = user.name,
+        phone = user.phone,
+        password = user.password
+    )
 
     fun toEntity(): User {
         return User(

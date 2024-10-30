@@ -27,7 +27,7 @@ class PresentationViewController(
     fun view(
         model: Model,
         @AuthenticationPrincipal user: CustomUserDetails,
-        ): String {
+    ): String {
         model.addAttribute("username", user.getDisplayName())
         model.addAttribute("userId", user.getUserId())
         return "presentation/index"
@@ -37,7 +37,7 @@ class PresentationViewController(
     fun desk(
         model: Model,
         @AuthenticationPrincipal user: CustomUserDetails,
-        ): String {
+    ): String {
         val seats = seatService.getSeatInfo()
         val seatCount = seatService.getRemainSeatCount()
         val userReservedSeat = seatService.getUserReservedSeat(user.getUserId())

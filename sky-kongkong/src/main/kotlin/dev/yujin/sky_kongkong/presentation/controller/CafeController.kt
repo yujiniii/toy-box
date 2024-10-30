@@ -18,7 +18,7 @@ class CafeController(
     @GetMapping("")
     fun getUserCafeInfo(
         @AuthenticationPrincipal user: CustomUserDetails,
-        ): UsageDto {
+    ): UsageDto {
         return usageService.getUserUsage(user.getUserId())
     }
 

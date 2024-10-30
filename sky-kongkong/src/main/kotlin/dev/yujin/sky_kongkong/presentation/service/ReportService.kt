@@ -32,7 +32,7 @@ class ReportService(
     fun getReportById(userId: Long, reportId: Long): ReportDto {
         val report = reportRepository.findById(reportId).orElseThrow()
 
-        if (report.user.userId != userId){
+        if (report.user.userId != userId) {
             throw BadRequestException("본인이 작성한 문의만 조회할 수 있습니다")
         }
 

@@ -6,8 +6,8 @@ data class UserLoginDto(
     val phone: String,
     val password: String
 ) {
-   constructor(user: User) :  this (
-       phone = user.phone,
-       password = user.password
-   )
+    constructor(user: User) : this(
+        phone = user.phone,
+        password = user.password
+    )
 }

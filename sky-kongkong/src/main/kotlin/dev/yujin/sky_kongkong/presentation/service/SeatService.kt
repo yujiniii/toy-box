@@ -17,7 +17,7 @@ import kotlin.concurrent.thread
 class SeatService(
     private val seatRepository: SeatRepository,
     private val usageRepository: UsageRepository
-    ) {
+) {
 
     @Transactional(readOnly = true)
     fun getSeatInfo(): List<SeatDto> {

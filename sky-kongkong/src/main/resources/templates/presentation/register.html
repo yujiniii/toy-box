@@ -4,63 +4,67 @@
 <div th:replace="~{/presentation/fragments/fragment-head :: head}"></div>
 
 <body class="bg-gradient-primary">
+<div th:replace="~{/presentation/fragments/fragment-header :: header(${username != null ? username : null})}"></div>
+<div th:replace="~{/presentation/fragments/fragment-svg :: svg}"></div>
 
-    <div class="container">
+<div class="container">
 
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
-                <div class="row justify-content-md-center">
-<!--                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>-->
-                    <div class="col-lg-7">
-                        <div class="p-5">
-                            <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row justify-content-md-center">
+                <!--                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>-->
+                <div class="col-lg-7">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">회원가입</h1>
+                        </div>
+                        <form class="user" th:action="@{/api/auth/register}" th:object="${body}" method="post">
+                            <div class="form-group mb-3">
+                                <label>핸드폰 번호 (숫자만)</label>
+                                <input type="text" class="form-control form-control-user" th:field="*{phone}"
+                                       id="exampleInput"
+                                       placeholder="핸드폰번호">
                             </div>
-                            <form class="user" th:action="@{/api/auth/register}" th:object="${body}" method="post">
-                                <div class="form-group mb-3">
-                                    <label>핸드폰 번호 (숫자만)</label>
-                                    <input type="text" class="form-control form-control-user" th:field="*{phone}" id="exampleInput"
-                                        placeholder="핸드폰번호">
-                                </div>
 
-                                <div class="form-group mb-3">
-                                    <label>이름 (실명)</label>
-                                    <input type="text" class="form-control form-control-user" th:field="*{name}" id="exampleInput"
-                                        placeholder="이름">
-                                </div>
-                                <div class="form-group row mb-3">
-                                    <label>비밀번호</label>
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user" th:field="*{password}"
-                                            id="exampleInputPassword" placeholder="Password">
-                                    </div>
-                                    <div class="col-sm-6 mb-3">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password">
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-outline-primary btn-xl">
-                                    등록
-                                </button>
-                                <hr>
-                            </form>
-<!--                            <div class="text-center">-->
-<!--                                <a class="small" href="forgot-password">Forgot Password?</a>-->
-<!--                            </div>-->
-                            <div class="text-center">
-                                <a class="small" href="/login">로그인하기</a>
+                            <div class="form-group mb-3">
+                                <label>이름 (실명)</label>
+                                <input type="text" class="form-control form-control-user" th:field="*{name}"
+                                       id="exampleInput"
+                                       placeholder="이름">
                             </div>
+                            <div class="form-group row mb-3">
+                                <label>비밀번호</label>
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <input type="password" class="form-control form-control-user" th:field="*{password}"
+                                           id="exampleInputPassword" placeholder="Password">
+                                </div>
+                                <div class="col-sm-6 mb-3">
+                                    <input type="password" class="form-control form-control-user"
+                                           id="exampleRepeatPassword" placeholder="Repeat Password">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-outline-primary btn-xl">
+                                등록
+                            </button>
+                            <hr>
+                        </form>
+                        <!--                            <div class="text-center">-->
+                        <!--                                <a class="small" href="forgot-password">Forgot Password?</a>-->
+                        <!--                            </div>-->
+                        <div class="text-center">
+                            <a class="small" href="/login">로그인하기</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
-    <!-- footer -->
-    <div th:replace="~{presentation/fragments/fragment-footer :: footer}"></div>
+</div>
+
+<!-- footer -->
+<div th:replace="~{presentation/fragments/fragment-footer :: footer}"></div>
 
 </body>
 

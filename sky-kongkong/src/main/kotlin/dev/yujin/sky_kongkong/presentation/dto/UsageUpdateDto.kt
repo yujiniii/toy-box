@@ -5,7 +5,7 @@ import java.time.Duration
 import java.time.LocalDateTime
 
 
-data class UsageUpdateDto (
+data class UsageUpdateDto(
     val checkOut: LocalDateTime,
 ) {
     fun toEntity(usage: Usage, isActive: Boolean): Usage {
@@ -20,7 +20,7 @@ data class UsageUpdateDto (
     }
 
     private fun calculateUseMinutes(checkIn: LocalDateTime, checkOut: LocalDateTime): Int {
-        return  Duration.between(checkIn, checkOut).toMinutes().toInt()
+        return Duration.between(checkIn, checkOut).toMinutes().toInt()
     }
 
 
