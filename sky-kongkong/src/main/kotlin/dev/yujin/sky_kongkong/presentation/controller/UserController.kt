@@ -15,7 +15,7 @@ class UserController(
     @PostMapping("/add")
     fun addTime(
         @AuthenticationPrincipal user: CustomUserDetails,
-        @ModelAttribute body: UserTimeUpdateDto
+        @RequestBody body: UserTimeUpdateDto
     ): String {
         return userService.addTimes(user.getUserId(), body.toMinutes())
     }

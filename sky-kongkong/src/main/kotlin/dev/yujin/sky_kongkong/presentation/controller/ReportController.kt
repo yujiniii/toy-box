@@ -10,7 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 
-@Controller
+@RestController
 @RequestMapping("/api/report")
 class ReportController(
     private val reportService: ReportService
@@ -18,11 +18,10 @@ class ReportController(
     @PostMapping("")
     fun createNewReport(
         @AuthenticationPrincipal user: CustomUserDetails,
-        @ModelAttribute body: ReportCreationDto
+        @RequestBody body: ReportCreationDto
     ): String {
         reportService.createNewReport(user.getUserId(), body)
 
-        return "redirect:/"
-
+        return "ok"
     }
 }

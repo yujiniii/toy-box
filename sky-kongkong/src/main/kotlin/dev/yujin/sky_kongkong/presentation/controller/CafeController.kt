@@ -5,6 +5,7 @@ import dev.yujin.sky_kongkong.presentation.dto.*
 import dev.yujin.sky_kongkong.presentation.service.SeatService
 import dev.yujin.sky_kongkong.presentation.service.UsageService
 import dev.yujin.sky_kongkong.presentation.service.UserService
+import org.springframework.data.jpa.repository.Query
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
@@ -26,17 +27,19 @@ class CafeController(
     @PostMapping("/enter")
     fun enterCafe(
         @AuthenticationPrincipal user: CustomUserDetails,
-        @ModelAttribute body: UsageCreationDto
+        @RequestParam("seatId") seatId: Int
     ): String {
-        return usageService.enterCafe(user.getUserId(), body)
+        usageService.enterCafe(user.getUserId(), seatId)
+
+        return "ok"
     }
 
-    @PostMapping("/leave/{usageId}")
+    @PostMapping("/leave")
     fun leaveCafe(
         @AuthenticationPrincipal user: CustomUserDetails,
-        @RequestParam usageId: String,
     ): String {
-        return usageService.leaveCafe(user.getUserId(), usageId.toLong())
+        usageService.leaveCafe(user.getUserId())
+        return "ok"
     }
 
     @GetMapping("/seat-info")

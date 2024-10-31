@@ -78,6 +78,10 @@ class UserService(
 
     @Transactional(readOnly = false)
     fun addTimes(userId: Long, minutes: Int): String {
+        if(minutes < 0){
+            throw BadRequestException("음수는 입력할 수 없습니다.")
+        }
+
         val userTime = userTimeRepository.findByUser_UserId(userId).orElseThrow {
             throw BadRequestException("해당 사용자의 시간 정보를 찾을 수 없습니다.")
         }

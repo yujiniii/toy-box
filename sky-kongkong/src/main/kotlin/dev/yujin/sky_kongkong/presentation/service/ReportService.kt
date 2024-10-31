@@ -17,7 +17,7 @@ class ReportService(
 ) {
 
 
-    @Transactional()
+    @Transactional(readOnly = false)
     fun createNewReport(userId: Long, dto: ReportCreationDto): String {
         val user = userRepository.findById(userId).orElseThrow {
             throw BadRequestException("해당 사용자를 찾을 수 없습니다.")
@@ -28,7 +28,7 @@ class ReportService(
     }
 
 
-    @Transactional()
+    @Transactional(readOnly = false)
     fun getReportById(userId: Long, reportId: Long): ReportDto {
         val report = reportRepository.findById(reportId).orElseThrow()
 

@@ -44,7 +44,7 @@ class UsageService(
     }
 
     @Transactional(readOnly = false)
-    fun enterCafe(userId: Long, dto: UsageCreationDto): String {
+    fun enterCafe(userId: Long, seatId: Int): String {
         val user = userRepository.findById(userId).orElseThrow {
             BadRequestException("사용자 정보를 확인해주세요")
         }
@@ -59,7 +59,7 @@ class UsageService(
             throw BadRequestException("먼저 퇴실해주세요")
         }
 
-        val seat = seatRepository.findById(dto.seatId).orElseThrow {
+        val seat = seatRepository.findById(seatId).orElseThrow {
             BadRequestException("유효하지 않은 좌석입니다")
         }
 
@@ -69,29 +69,28 @@ class UsageService(
 
         seatRepository.save(
             Seat(
-                seatId = dto.seatId,
+                seatId = seatId,
                 isActive = true,
             )
         )
 
-        usageRepository.save(dto.toEntity(user))
+        usageRepository.save(UsageCreationDto(seatId).toEntity(user))
 
         return "ok"
     }
 
     @Transactional(readOnly = false)
-    fun leaveCafe(userId: Long, usageId: Long): String {
-        val user = userRepository.findById(userId).orElseThrow {
-            BadRequestException("사용자 정보를 확인해주세요")
+    fun leaveCafe(userId: Long): String {
+        userRepository.findById(userId).orElseThrow {
+            throw BadRequestException("사용자 정보를 확인해주세요")
         }
 
-        // @todo change use usageId
-        val usage = usageRepository.findByIsActiveAndUsageIdIs(true, usageId).orElseThrow {
-            BadRequestException("먼저 입실해주세요")
-        }
+        // get usage
+        val usage = usageRepository.findByIsActiveAndUser_UserIdIs(true, userId)
+            ?: throw BadRequestException("입실 정보가 존재하지 않습니다")
 
         if (usage.user?.userId != userId) {
-            throw BadRequestException("본인 계정으로만 퇴실할 수 있습니다")
+            throw BadRequestException("본인만 퇴실할 수 있습니다")
         }
 
         seatRepository.save(
