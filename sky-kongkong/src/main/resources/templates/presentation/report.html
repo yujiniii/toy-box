@@ -14,36 +14,32 @@
 
 <div th:replace="~{/presentation/fragments/fragment-header :: header(${username != null ? username : null})}"></div>
 
-
 <div class="container">
-
     <div class="card o-hidden border-0 shadow-lg my-5">
         <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
             <div class="row justify-content-md-center">
-                <!--                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>-->
                 <div class="col-lg-7">
                     <div class="p-5">
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">불편 신고 하기</h1>
                         </div>
-                        <form class="user" th:action="@{/api/report}" th:object="${body}" method="post">
+                        <form id="reportForm" class="user">
                             <div class="form-group mb-3">
                                 <label>카테고리</label>
-                                <select class="form-control form-control-user" th:field="*{category}">
+                                <select class="form-control form-control-user" id="category">
                                     <option value="User">불량 사용자</option>
                                     <option value="Facility">시설 고장</option>
                                     <option value="Etc">기타</option>
-
                                 </select>
                             </div>
 
                             <div class="form-group mb-3">
                                 <label>세부 내용</label>
-                                <textarea class="form-control form-control-user" th:field="*{detail}" id="exampleInput"
+                                <textarea class="form-control form-control-user" id="detail"
                                           placeholder="자리 번호, 시설 고장 재현 과정 등"></textarea>
                             </div>
-                            <button type="submit" class="btn btn-outline-primary btn-xl">
+                            <button type="button" class="btn btn-outline-primary btn-xl" onclick="submitReport()">
                                 등록
                             </button>
                             <hr>
@@ -53,12 +49,48 @@
             </div>
         </div>
     </div>
-
 </div>
+
+<script>
+    async function submitReport() {
+        // 폼 데이터 수집
+        const category = document.getElementById("category").value;
+        const detail = document.getElementById("detail").value;
+
+        // 요청을 위한 JSON 데이터 생성
+        const requestData = {
+            category: category,
+            detail: detail
+        };
+
+        try {
+            // fetch를 사용한 POST 요청
+            const response = await fetch("/api/report", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestData)
+            });
+
+            if (response.ok) {
+                alert("신고가 성공적으로 등록되었습니다!");
+                // 폼 초기화
+                document.getElementById("reportForm").reset();
+            } else {
+                const errorData = await response.json(); // 오류 응답을 JSON으로 파싱
+                alert(errorData.message || "신고 등록에 실패했습니다. 다시 시도해 주세요.");
+            }
+        } catch (error) {
+            console.error("신고 등록 중 오류 발생:", error);
+            alert("신고 등록 중 오류가 발생했습니다.");
+        }
+    }
+</script>
+
 
 <!-- footer -->
 <div th:replace="~{presentation/fragments/fragment-footer :: footer}"></div>
 
 </body>
-
 </html>

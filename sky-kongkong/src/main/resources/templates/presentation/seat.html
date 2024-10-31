@@ -2,7 +2,6 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <div th:replace="~{/presentation/fragments/fragment-head :: head}"></div>
 
-
 <body>
 
 <div th:replace="~{/presentation/fragments/fragment-svg :: svg}"></div>
@@ -14,15 +13,16 @@
 
 <div th:replace="~{/presentation/fragments/fragment-header :: header(${username != null ? username : null})}"></div>
 
-
 <div class="container mt-5 mb-5">
     <h2>스터디카페 실시간 자리 현황</h2>
     남은 좌석 : <span th:text="${seatCount}"></span>
-    <div class="row">
+    <div class="row" id="seat-container">
         <!-- 5행 반복 (1차원 배열을 8개씩 나누어 5x8로 출력) -->
         <div th:each="rowIndex : ${#numbers.sequence(0, 4)}" class="d-flex justify-content-center">
             <!-- 좌석 4개 -->
             <div th:each="seat : ${seats.subList(rowIndex * 8, rowIndex * 8 + 4)}" class="seat"
+                 th:data-seat-id="${seat.seatId}"
+                 th:onclick="${hasCheckedIn} ? null : 'selectSeat(this)'"
                  th:classappend="${seat.isActive} ? 'isActive' : 'empty'">
                 <span class="seat-number" th:text="${seat.seatId}"></span>
             </div>
@@ -32,12 +32,111 @@
 
             <!-- 좌석 나머지 4개 -->
             <div th:each="seat : ${seats.subList(rowIndex * 8 + 4, rowIndex * 8 + 8)}" class="seat"
+                 th:data-seat-id="${seat.seatId}"
+                 th:onclick="${hasCheckedIn} ? null : 'selectSeat(this)'"
                  th:classappend="${seat.isActive} ? 'isActive' : 'empty'">
                 <span class="seat-number" th:text="${seat.seatId}"></span>
             </div>
         </div>
     </div>
+
+    <!-- 선택한 좌석 표시 -->
+    <div id="selected-seat" style="margin-top: 20px; font-weight: bold; color: #333;">
+        <!-- hasCheckedIn이 true일 때 사용자 예약 좌석 표시 -->
+        <span th:if="${hasCheckedIn}">사용 중인 좌석: <span th:text="${userReservedSeat.seatId}"></span></span>
+    </div>
+
+    <button type="submit" class="btn btn-outline-primary btn-xl" th:if="${hasCheckedIn == false}"
+            onclick="enterCafe()">
+        입실
+    </button>
+    <button type="submit" class="btn btn-outline-primary btn-xl" th:if="${hasCheckedIn == true}"
+            onclick="leaveCafe()">
+        퇴실
+    </button>
 </div>
+
+<script>
+    // DOMContentLoaded 이벤트가 발생하면 좌석에 클릭 이벤트를 추가
+    document.addEventListener("DOMContentLoaded", function () {
+        if (![[${hasCheckedIn}]]) { // 입실하지 않은 경우에만 이벤트 활성화
+            const seats = document.querySelectorAll(".seat"); // 모든 좌석 선택
+            seats.forEach(seat => {
+                seat.addEventListener("click", function () {
+                    selectSeat(seat);
+                });
+            });
+        }
+    });
+
+    // 선택한 좌석의 테두리를 표시하고, 이전 선택을 초기화하는 함수
+    function selectSeat(seat) {
+        const selectedSeatDiv = document.getElementById("selected-seat");
+        const seatId = seat.getAttribute("data-seat-id");
+
+        // 이전 선택 좌석의 테두리 제거
+        const previouslySelected = document.querySelector(".selected-border");
+        if (previouslySelected) {
+            previouslySelected.classList.remove("selected-border");
+        }
+
+        // 현재 선택한 좌석에 빨간 테두리 추가
+        seat.classList.add("selected-border");
+        selectedSeatDiv.textContent = "선택한 좌석 번호: " + seatId;
+    }
+
+    async function enterCafe() {
+        const selectedSeatDiv = document.getElementById("selected-seat");
+        const seatIdText = selectedSeatDiv.textContent;
+
+        if (!seatIdText.includes("선택한 좌석 번호")) {
+            alert("먼저 좌석을 선택해 주세요.");
+            return;
+        }
+
+        const seatId = seatIdText.replace("선택한 좌석 번호: ", "");
+
+        try {
+            // 입실 API 요청
+            const response = await fetch(`/api/cafe/enter?seatId=${seatId}`, {
+                method: 'POST',
+            });
+
+            if (response.ok) {
+                alert("입실이 완료되었습니다!");
+                window.location.reload(); // 페이지 새로고침
+            } else {
+                const errorData = await response.json(); // 오류 응답을 JSON으로 파싱
+                alert(errorData.message || "입실에 실패했습니다. 다시 시도해 주세요.");
+            }
+        } catch (error) {
+            console.error("입실 요청 중 오류 발생:", error);
+            alert("입실 요청 중 오류가 발생했습니다.");
+        }
+    }
+
+    async function leaveCafe() {
+        try {
+            // 퇴실 API 요청
+            const response = await fetch(`/api/cafe/leave`, {
+                method: 'POST',
+            });
+
+            if (response.ok) {
+                alert("퇴실이 완료되었습니다!");
+                window.location.reload(); // 페이지 새로고침
+            } else {
+                const errorData = await response.json(); // 오류 응답을 JSON으로 파싱
+                alert(errorData.message || "퇴실에 실패했습니다. 다시 시도해 주세요.");
+            }
+        } catch (error) {
+            console.error("퇴실 요청 중 오류 발생:", error);
+            alert("퇴실 요청 중 오류가 발생했습니다.");
+        }
+    }
+
+
+</script>
 
 <style>
     .seat {
@@ -48,6 +147,7 @@
         align-items: center;
         border: 1px solid #ccc;
         margin: 5px;
+        cursor: pointer; /* 클릭 가능한 커서 */
     }
 
     .isActive {
@@ -60,6 +160,11 @@
 
     .seat-number {
         font-weight: bold;
+    }
+
+    /* 선택된 좌석의 빨간 테두리 */
+    .selected-border {
+        border: 2px solid red;
     }
 
     /* 가운데 줄에 마진을 추가 */
