@@ -27,20 +27,16 @@ class UsageService(
 
     @Transactional(readOnly = true)
     fun getUserUsage(userId: Long): UsageDto {
-        val user = userRepository.findById(userId).orElseThrow {
+        userRepository.findById(userId).orElseThrow {
             BadRequestException("사용자 정보를 확인해주세요")
         }
 
         val usage = usageRepository.findByIsActiveAndUser_UserIdIs(true, userId)
-            ?: throw BadRequestException("먼저 입실해주세요")
 
-        return UsageDto(
-            usageId = usage.usageId,
-            seatId = usage.seatId,
-            checkIn = usage.checkIn,
-            checkOut = usage.checkOut,
-            useMinutes = usage.useMinutes
-        )
+        if(usage != null) {
+            return UsageDto(usage)
+        }
+        return UsageDto()
     }
 
     @Transactional(readOnly = false)
@@ -100,7 +96,16 @@ class UsageService(
             )
         )
 
-        usageRepository.save(UsageUpdateDto(LocalDateTime.now()).toEntity(usage, false))
+        val updateDto = UsageUpdateDto(LocalDateTime.now()).toEntity(usage, false)
+        usage.update(
+            seatId = updateDto.seatId,
+            checkIn = updateDto.checkIn,
+            useMinutes = updateDto.useMinutes,
+            checkOut = updateDto.checkOut,
+            isActive = updateDto.isActive
+        )
+
+        usageRepository.save(usage)
         return "ok"
     }
 

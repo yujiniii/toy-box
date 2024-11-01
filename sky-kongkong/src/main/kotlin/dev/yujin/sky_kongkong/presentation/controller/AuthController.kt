@@ -19,11 +19,9 @@ class AuthController(
 ) {
     @PostMapping("/register")
     fun register(
-        @ModelAttribute body: UserCreationDto
-    ): String {
-        userService.register(body)
-
-        return "redirect:/login"
+        @RequestBody body: UserCreationDto
+    ): UserDto {
+        return userService.register(body)
     }
 
     @PostMapping("/login")

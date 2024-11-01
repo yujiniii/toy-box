@@ -5,6 +5,8 @@ import dev.yujin.sky_kongkong.presentation.dto.ReportCreationDto
 import dev.yujin.sky_kongkong.presentation.dto.UserCreationDto
 import dev.yujin.sky_kongkong.presentation.dto.UserTimeUpdateDto
 import dev.yujin.sky_kongkong.presentation.service.SeatService
+import dev.yujin.sky_kongkong.presentation.service.UsageService
+import dev.yujin.sky_kongkong.presentation.service.UserService
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -15,7 +17,9 @@ data class Seat(val number: Int, val isActive: Boolean)
 
 @Controller
 class PresentationViewController(
-    private val seatService: SeatService
+    private val seatService: SeatService,
+    private val usageService: UsageService,
+    private val userService: UserService
 ) {
 
     @GetMapping("/test")
@@ -88,5 +92,24 @@ class PresentationViewController(
 
         model.addAttribute("body", UserTimeUpdateDto())
         return "presentation/add-time"
+    }
+
+    @GetMapping("/my-page")
+    fun myPage(
+        model: Model,
+        @AuthenticationPrincipal user: CustomUserDetails,
+    ): String {
+        val userId = user.getUserId()
+        val usage = usageService.getUserUsage(userId)
+        val user = userService.getUserById(userId)
+        val remainMinutes = userService.getRemainMinutes(userId)
+
+        model.addAttribute("user", user)
+        model.addAttribute("myUsage", usage)
+        model.addAttribute("remainMinutes", remainMinutes)
+        println("reM $remainMinutes")
+        println("reM $usage")
+
+        return "presentation/my-page"
     }
 }

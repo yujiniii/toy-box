@@ -38,6 +38,12 @@ class UserService(
     }
 
     @Transactional(readOnly = true)
+    fun getRemainMinutes(userId: Long): Int {
+        val user = userRepository.findById(userId).orElseThrow()
+        return user.getRemainMinutes()
+    }
+
+    @Transactional(readOnly = true)
     fun login(dto: UserLoginDto): UserDto {
         val user = userRepository.findByPhoneIs(dto.phone).orElseThrow {
             throw BadRequestException("회원가입을 해 주세요")

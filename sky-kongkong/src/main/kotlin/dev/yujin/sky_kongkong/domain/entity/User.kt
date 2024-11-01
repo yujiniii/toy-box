@@ -63,4 +63,8 @@ class User(
     override fun getUsername(): String {
         return username
     }
+
+    fun getRemainMinutes(): Int {
+        return timeInfo.remainMinutes
+    }
 }

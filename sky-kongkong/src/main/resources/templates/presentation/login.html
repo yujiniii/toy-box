@@ -19,14 +19,15 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">로그인</h1>
                                 </div>
-                                <form class="user" id="loginForm" onsubmit="loginUser(event)">
+                                <!--<form class="user" id="loginForm" onsubmit="loginUser(event)">-->
+                                <form class="user" th:action="@{/api/auth/login}" method="post">
                                     <div class="form-group mb-3">
                                         <input type="text" id="usernameInput" class="form-control form-control-user"
-                                               placeholder="휴대폰 번호" required>
+                                               placeholder="휴대폰 번호" name="username" required>
                                     </div>
                                     <div class="form-group mb-3">
                                         <input type="password" id="passwordInput" class="form-control form-control-user"
-                                               placeholder="비밀번호" required>
+                                               placeholder="비밀번호" name="password" required>
                                     </div>
                                     <button type="submit" class="btn btn-outline-primary btn-xl">
                                         로그인
@@ -46,40 +47,5 @@
 </div>
 <!-- footer -->
 <div th:replace="~{presentation/fragments/fragment-footer :: footer}"></div>
-
-<script>
-    async function loginUser(event) {
-        event.preventDefault(); // 폼의 기본 제출 동작 방지
-
-        // 입력된 데이터 가져오기
-        const username = document.getElementById("usernameInput").value;
-        const password = document.getElementById("passwordInput").value;
-
-        // 요청 데이터 생성
-        const requestData = {username, password};
-
-        try {
-            // fetch를 이용한 POST 요청
-            const response = await fetch("/api/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(requestData)
-            });
-
-            if (response.ok) {
-                alert("로그인에 성공했습니다!");
-                window.location.href = "/"; // 로그인 성공 시 리디렉션
-            } else {
-                const errorData = await response.json();
-                alert(errorData.message || "로그인에 실패했습니다. 다시 시도해 주세요.");
-            }
-        } catch (error) {
-            console.error("로그인 중 오류 발생:", error);
-            alert("로그인 중 오류가 발생했습니다.");
-        }
-    }
-</script>
 </body>
 </html>
