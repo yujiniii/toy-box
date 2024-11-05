@@ -1,6 +1,3 @@
 [submodule "morning-letter"]
 	path = morning-letter
 	url = https://github.com/yujiniii/morning-letter.git
-[submodule "DeliveryDelegate-back"]
-	path = DeliveryDelegate-back
-	url = https://github.com/yujiniii/DeliveryDelegate-back.git
