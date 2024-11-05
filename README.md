@@ -8,4 +8,3 @@
 |--|--|--|
 |[스터디카페 관리 프로젝트](/sky-kongkong) |`springboot3` `kotlin` `사이드프로젝트`|`2024.10`|
 |[소소한 아침편지 - morning-letter](https://github.com/yujiniii/morning-letter) |`Node.js` `NestJS` `TypeScript` `사이드프로젝트`|`2024.06`| 
-|[동네 주민 배달 대행 - 달대표](https://github.com/yujiniii/DeliveryDelegate-back) |`Node.js` `Express` `JavaScript` | `2021.`|
